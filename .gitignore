@@ -1,0 +1,13 @@
+data/complaints.csv
+data/complaints.csv.zip
+data/*.zip
+models/
+outputs/
+__pycache__/
+.ipynb_checkpoints/
+*.pt
+*.bin
+*.safetensors
+.env
+.venv/
+venv/

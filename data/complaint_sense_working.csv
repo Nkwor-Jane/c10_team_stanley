@@ -1,0 +1,301 @@
+ComplaintId,text,Category,FamilyId
+236,Hi support — Repair appointment canceled by vendor twice without offering new date.,warranty_repair,template:warranty_repair:7
+230,Do you offer student pricing on annual software licenses?,general_inquiry,template:general_inquiry:1
+267,"Hello, The laptop screen flickers after only two weeks of normal use.",product_defect,template:product_defect:0
+141,"Hello, I see an unknown recurring charge labeled premium support on my statement.",billing,template:billing:5
+272,Writing to complain: Auto-renew toggled back on after software update without consent. Please advise.,subscription_cancel,template:subscription_cancel:7
+64,"Hello, Auto-renew toggled back on after software update without consent.",subscription_cancel,template:subscription_cancel:7
+39,Writing to complain: Warranty inspection completed but authorized repair was never scheduled. Please advise.,warranty_repair,overlap:1
+301,Writing to complain: Return approved weeks ago but reimbursement still not issued. Please advise.,refund_return,overlap:3
+374,Writing to complain: Support quoted one price on chat but checkout billed a higher amount. Please advise.,billing,confusable:11
+76,"Hello, Bluetooth headphones stop pairing after the latest firmware update.",product_defect,template:product_defect:1
+228,Cancellation effective next year according to agent though terms say monthly.,subscription_cancel,template:subscription_cancel:4
+322,Hi support — Merged family plan removed my profile and purchase history.,account_access,template:account_access:3
+89,Auto-renew toggled back on after software update without consent.,subscription_cancel,template:subscription_cancel:7
+98,Account locked after three attempts though credentials are correct.,account_access,template:account_access:2
+253,Writing to complain: Manufacturer warranty claim rejected citing user damage without inspection. Please advise.,warranty_repair,template:warranty_repair:0
+346,Case update: Card charged for renewal though I'm reporting that I submitted cancellation before trial ended. Please advise.,subscription_cancel,overlap:8
+28,"Hello, Complaint form submitted twice with no acknowledgement number.",customer_service,template:customer_service:7
+179,"Hello, Cancellation effective next year according to agent though terms say monthly.",subscription_cancel,template:subscription_cancel:4
+45,Flagging an issue: Someone changed shipping address and placed orders I did not approve. Please advise.,fraud_unauthorized,template:fraud_unauthorized:1
+292,Hi support — Smartphone battery drains from full to zero in under three hours.,product_defect,template:product_defect:4
+3,"Hello, Courier left perishable groceries in the sun despite shade instructions.",delivery_shipping,template:delivery_shipping:1
+252,Case update: Return approved weeks ago but reimbursement still not issued. Please advise.,refund_return,overlap:3
+132,Where can I download compliance certificates for school procurement?,general_inquiry,template:general_inquiry:7
+87,Hi support — Can I buy spare filters in bulk through the corporate portal?,general_inquiry,template:general_inquiry:4
+306,"Hello, Driver picked up return box but refund timer has not started.",refund_return,confusable:15
+147,Username change broke access to digital subscriptions tied to old email.,account_access,template:account_access:5
+237,Hi support — Complaint form submitted twice with no acknowledgement number.,customer_service,template:customer_service:7
+150,Flagging an issue: Support blamed me for a known outage listed on their status page. Please advise.,customer_service,template:customer_service:6
+104,Writing to complain: Item arrived late and the glass panel inside was already shattered. Please advise.,product_defect,confusable:7
+294,"Hello, Still billed monthly after confirming cancellation confirmation number.",subscription_cancel,template:subscription_cancel:1
+362,"Hello, Monthly service fee increased without email notice as promised in contract.",billing,template:billing:4
+131,Writing to complain: Bluetooth headphones stop pairing after the latest firmware update. Please advise.,product_defect,template:product_defect:1
+270,"Hello, Two-factor codes never arrive to my registered phone number.",account_access,template:account_access:1
+207,Hi support — Refund never posted back to my card after return was approved last month.,billing,confusable:1
+328,Flagging an issue: Auto-renew toggled back on after software update without consent. Please advise.,subscription_cancel,template:subscription_cancel:7
+314,"Hello, Return approved weeks ago but reimbursement still not issued.",refund_return,overlap:3
+185,Hi support — Canceled plan yet another monthly invoice generated this morning.,billing,confusable:4
+205,Hi support — Gift return processed as store credit instead of original payment method.,refund_return,template:refund_return:5
+163,Locked out after suspicious login attempts I did not recognize.,account_access,confusable:3
+323,"Hello, I paid express shipping but the tracking page still shows label created only.",delivery_shipping,confusable:0
+243,Hi support — Return label provided yet pickup was missed twice without rescheduling.,refund_return,template:refund_return:1
+166,"Hello, Package marked delivered but nothing arrived at my apartment door.",delivery_shipping,template:delivery_shipping:0
+16,Live agent closed ticket while issue was still unresolved.,customer_service,template:customer_service:5
+172,Writing to complain: Package marked delivered but nothing arrived at my apartment door. Please advise.,delivery_shipping,template:delivery_shipping:0
+250,Hi support — I paid express shipping but the tracking page still shows label created only.,delivery_shipping,confusable:0
+268,"Hello, Outer box intact yet internal foam was wet when parcel arrived.",delivery_shipping,confusable:16
+338,Deleted account but streaming service continues charging old card.,subscription_cancel,template:subscription_cancel:5
+25,Flagging an issue: Deleted account but streaming service continues charging old card. Please advise.,subscription_cancel,template:subscription_cancel:5
+112,Flagging an issue: Return tracking shows received at warehouse five days ago with no credit. Please advise.,refund_return,template:refund_return:6
+36,Flagging an issue: Card charged for renewal though I submitted cancellation before trial ended. Please advise.,subscription_cancel,overlap:8
+271,Hi support — Manufacturer warranty claim rejected citing user damage without inspection.,warranty_repair,template:warranty_repair:0
+198,"Hello, Phishing email used your logo then my account had mystery withdrawals.",fraud_unauthorized,template:fraud_unauthorized:5
+79,Hi support — Family subscription cancellation removed kids profiles without warning.,subscription_cancel,template:subscription_cancel:6
+117,Writing to complain: Delivery driver did not ring the bell though I was home all day. Please advise.,delivery_shipping,template:delivery_shipping:6
+202,Writing to complain: Complaint form submitted twice with no acknowledgement number. Please advise.,customer_service,template:customer_service:7
+175,Writing to complain: Waited forty minutes on chat before the agent disconnected without reply. Please advise.,customer_service,template:customer_service:0
+245,Writing to complain: Driver picked up return box but refund timer has not started. Please advise.,refund_return,confusable:15
+168,Gift return processed as store credit instead of original payment method.,refund_return,template:refund_return:5
+5,Hi support — Authorized service charged labor despite comprehensive coverage plan.,warranty_repair,template:warranty_repair:3
+13,Hi support — Statement shows disputed charge I cannot mark or annotate online.,billing,overlap:7
+336,Writing to complain: Why am I still seeing membership charges after I clicked cancel last week? Please advise.,subscription_cancel,confusable:8
+319,"Hello, Cannot log in after password reset email says link expired immediately.",account_access,template:account_access:0
+187,Writing to complain: Canceled plan yet another monthly invoice generated this morning. Please advise.,billing,confusable:4
+310,Authorized service charged labor despite comprehensive coverage plan.,warranty_repair,template:warranty_repair:3
+251,Flagging an issue: The laptop screen flickers after only two weeks of normal use. Please advise.,product_defect,template:product_defect:0
+209,Flagging an issue: Single sign-on loop prevents access to member portal on mobile browser. Please advise.,account_access,template:account_access:7
+181,Writing to complain: Invoice total does not match quoted price from sales chat. Please advise.,billing,overlap:5
+44,Is the blue kettle dishwasher safe according to latest manual?,general_inquiry,template:general_inquiry:2
+287,Cannot log in after password reset email says link expired immediately.,account_access,template:account_access:0
+216,Hi support — Extended protection plan will not cover water damage from known seal defect.,warranty_repair,template:warranty_repair:6
+19,Flagging an issue: Driver picked up return box but refund timer has not started. Please advise.,refund_return,confusable:15
+356,Writing to complain: Unknown party used saved card for renewal I did not authorize. Please advise.,fraud_unauthorized,overlap:9
+345,Writing to complain: Still billed monthly after confirming cancellation confirmation number. Please advise.,subscription_cancel,template:subscription_cancel:1
+26,Flagging an issue: Defective oven element failed again after warranty repair last quarter. Please advise.,warranty_repair,confusable:2
+67,Hi support — Identity verification failed and impostor chat requested my government ID.,fraud_unauthorized,template:fraud_unauthorized:7
+59,Hi support — Support blamed me for a known outage listed on their status page.,customer_service,template:customer_service:6
+12,"Hello, Express shipping paid but item arrived after the event date.",delivery_shipping,template:delivery_shipping:4
+193,"Hello, Delivery driver did not ring the bell though I was home all day.",delivery_shipping,template:delivery_shipping:6
+373,Hi support — Courier left perishable groceries in the sun despite shade instructions.,delivery_shipping,template:delivery_shipping:1
+355,Flagging an issue: Live agent closed ticket while issue was still unresolved. Please advise.,customer_service,template:customer_service:5
+27,Hi support — Blender motor smells like burning plastic during low-speed blending.,product_defect,template:product_defect:6
+120,Hi support — Children's toy paint chipped off and looks unsafe after gentle play.,product_defect,template:product_defect:3
+126,Writing to complain: Monthly service fee increased without email notice as promised in contract. Please advise.,billing,template:billing:4
+48,"Hello, Unknown party used saved card for renewal I did not authorize.",fraud_unauthorized,overlap:9
+331,Package marked delivered but nothing arrived at my apartment door.,delivery_shipping,template:delivery_shipping:0
+217,Return label provided yet pickup was missed twice without rescheduling.,refund_return,template:refund_return:1
+53,Flagging an issue: Gift return processed as store credit instead of original payment method. Please advise.,refund_return,template:refund_return:5
+143,Writing to complain: Box arrived crushed and outer tape clearly resealed by carrier. Please advise.,delivery_shipping,template:delivery_shipping:5
+62,"Hello, A late fee appeared on my account even though I paid before the due date.",billing,template:billing:2
+116,"Hello, Bill shows data overage charges although I was on an unlimited plan.",billing,template:billing:6
+203,Flagging an issue: Manufacturer warranty claim rejected citing user damage without inspection. Please advise.,warranty_repair,template:warranty_repair:0
+97,Hi support — Driver picked up return box but refund timer has not started.,refund_return,confusable:15
+380,Hi support — Express shipping paid but item arrived after the event date.,delivery_shipping,template:delivery_shipping:4
+201,Hi support — Deleted account but streaming service continues charging old card.,subscription_cancel,template:subscription_cancel:5
+278,"Hello, Username change broke access to digital subscriptions tied to old email.",account_access,template:account_access:5
+298,Flagging an issue: A late fee appeared on my account even though I paid before the due date. Please advise.,billing,template:billing:2
+47,"Hello, Tablet touchscreen registers ghost touches along the right edge.",product_defect,template:product_defect:7
+354,Password reset keeps failing and I see logins from cities I never visited.,fraud_unauthorized,confusable:9
+160,Writing to complain: Support email promised response in twenty-four hours but no follow-up after a week. Please advise.,customer_service,template:customer_service:1
+277,Express shipping paid but item arrived after the event date.,delivery_shipping,template:delivery_shipping:4
+20,Hi support — Auto-renew toggled back on after software update without consent.,subscription_cancel,template:subscription_cancel:7
+82,I paid express shipping but the tracking page still shows label created only.,delivery_shipping,confusable:0
+159,Hi support — Username change broke access to digital subscriptions tied to old email.,account_access,template:account_access:5
+224,Hi support — Warranty inspection completed but authorized repair was never scheduled.,warranty_repair,overlap:1
+91,"Hello, Can I buy spare filters in bulk through the corporate portal?",general_inquiry,template:general_inquiry:4
+313,Hi support — Card charged for renewal though I submitted cancellation before trial ended.,subscription_cancel,overlap:8
+55,Gift card balance emptied overnight with transactions I do not recognize.,fraud_unauthorized,template:fraud_unauthorized:2
+364,Flagging an issue: Support quoted one price on chat but checkout billed a higher amount. Please advise.,billing,confusable:11
+154,"Hello, Manufacturer warranty claim rejected citing user damage without inspection.",warranty_repair,template:warranty_repair:0
+347,Flagging an issue: Refund issued for partial amount excluding original shipping I paid. Please advise.,refund_return,template:refund_return:2
+111,Writing to complain: Someone changed shipping address and placed orders I did not approve. Please advise.,fraud_unauthorized,template:fraud_unauthorized:1
+337,"Hello, Do you offer student pricing on annual software licenses?",general_inquiry,template:general_inquiry:1
+318,Hi support — Shipment delayed two weeks — where is my package now?,delivery_shipping,overlap:2
+86,Flagging an issue: Can I buy spare filters in bulk through the corporate portal? Please advise.,general_inquiry,template:general_inquiry:4
+327,Flagging an issue: Are demo units on display available for purchase at discount? Please advise.,general_inquiry,template:general_inquiry:5
+261,Hi support — Exchange requested but warehouse sent a different color than approved.,refund_return,template:refund_return:4
+304,Flagging an issue: Identity verification failed and impostor chat requested my government ID. Please advise.,fraud_unauthorized,template:fraud_unauthorized:7
+260,Representative gave conflicting answers about the same warranty claim.,customer_service,template:customer_service:2
+130,Flagging an issue: Washing machine same fault returned twice after so-called repair. Please advise.,warranty_repair,template:warranty_repair:4
+231,Flagging an issue: Extended protection plan will not cover water damage from known seal defect. Please advise.,warranty_repair,template:warranty_repair:6
+38,Single sign-on loop prevents access to member portal on mobile browser.,account_access,template:account_access:7
+321,Writing to complain: The laptop screen flickers after only two weeks of normal use. Please advise.,product_defect,template:product_defect:0
+182,Extended protection plan will not cover water damage from known seal defect.,warranty_repair,template:warranty_repair:6
+102,"Hello, Children's toy paint chipped off and looks unsafe after gentle play.",product_defect,template:product_defect:3
+325,Flagging an issue: Account shows login from another country while I was asleep locally. Please advise.,fraud_unauthorized,template:fraud_unauthorized:3
+35,"Hello, Where can I download compliance certificates for school procurement?",general_inquiry,template:general_inquiry:7
+375,Flagging an issue: Account locked after three attempts though credentials are correct. Please advise.,account_access,template:account_access:2
+108,Writing to complain: Identity verification failed and impostor chat requested my government ID. Please advise.,fraud_unauthorized,template:fraud_unauthorized:7
+276,"Hello, Warranty inspection completed but authorized repair was never scheduled.",warranty_repair,overlap:1
+176,Flagging an issue: Complaint form submitted twice with no acknowledgement number. Please advise.,customer_service,template:customer_service:7
+238,Writing to complain: Account shows login from another country while I was asleep locally. Please advise.,fraud_unauthorized,template:fraud_unauthorized:3
+30,Exchange requested but warehouse sent a different color than approved.,refund_return,template:refund_return:4
+4,Hi support — Tablet touchscreen registers ghost touches along the right edge.,product_defect,template:product_defect:7
+335,Hi support — Agent said return was approved but warehouse team never sent label.,refund_return,confusable:5
+353,Flagging an issue: Representative gave conflicting answers about the same warranty claim. Please advise.,customer_service,template:customer_service:2
+235,Flagging an issue: Waited forty minutes on chat before the agent disconnected without reply. Please advise.,customer_service,template:customer_service:0
+299,The laptop screen flickers after only two weeks of normal use.,product_defect,template:product_defect:0
+215,Hi support — Item arrived late and the glass panel inside was already shattered.,product_defect,confusable:7
+282,"Hello, Smartphone battery drains from full to zero in under three hours.",product_defect,template:product_defect:4
+200,Writing to complain: Payment posted but balance still shows overdue in the portal. Please advise.,billing,template:billing:7
+51,Hi support — Refund issued for partial amount excluding original shipping I paid.,refund_return,template:refund_return:2
+289,Wallet charged for subscription I never activated after free trial ended silently.,fraud_unauthorized,template:fraud_unauthorized:4
+135,Smartphone battery drains from full to zero in under three hours.,product_defect,template:product_defect:4
+190,Writing to complain: Gift card balance emptied overnight with transactions I do not recognize. Please advise.,fraud_unauthorized,template:fraud_unauthorized:2
+295,Flagging an issue: Cancellation effective next year according to agent though terms say monthly. Please advise.,subscription_cancel,template:subscription_cancel:4
+351,Writing to complain: What are store hours for the downtown location on public holidays? Please advise.,general_inquiry,template:general_inquiry:0
+275,"Hello, Account shows login from another country while I was asleep locally.",fraud_unauthorized,template:fraud_unauthorized:3
+342,Writing to complain: Courier left perishable groceries in the sun despite shade instructions. Please advise.,delivery_shipping,template:delivery_shipping:1
+60,Writing to complain: Bill shows data overage charges although I was on an unlimited plan. Please advise.,billing,template:billing:6
+311,Case update: Shipment delayed two weeks — where is my package now? Please advise.,delivery_shipping,overlap:2
+50,Writing to complain: Do you offer student pricing on annual software licenses? Please advise.,general_inquiry,template:general_inquiry:1
+232,"Hello, Return tracking shows received at warehouse five days ago with no credit.",refund_return,template:refund_return:6
+41,Still billed monthly after confirming cancellation confirmation number.,subscription_cancel,template:subscription_cancel:1
+52,Writing to complain: Tablet touchscreen registers ghost touches along the right edge. Please advise.,product_defect,template:product_defect:7
+32,Writing to complain: Representative gave conflicting answers about the same warranty claim. Please advise.,customer_service,template:customer_service:2
+212,Writing to complain: Are demo units on display available for purchase at discount? Please advise.,general_inquiry,template:general_inquiry:5
+7,Hi support — Cancellation effective next year according to agent though terms say monthly.,subscription_cancel,template:subscription_cancel:4
+142,"Hello, Shipment delayed two weeks — where is my package now?",delivery_shipping,overlap:2
+9,Defective oven element failed again after warranty repair last quarter.,warranty_repair,confusable:2
+42,Flagging an issue: Express shipping paid but item arrived after the event date. Please advise.,delivery_shipping,template:delivery_shipping:4
+262,Why am I still seeing membership charges after I clicked cancel last week?,subscription_cancel,confusable:8
+129,Bluetooth headphones stop pairing after the latest firmware update.,product_defect,template:product_defect:1
+259,Writing to complain: I see an unknown recurring charge labeled premium support on my statement. Please advise.,billing,template:billing:5
+146,Writing to complain: Cannot log in after password reset email says link expired immediately. Please advise.,account_access,template:account_access:0
+242,Writing to complain: Statement shows disputed charge I cannot mark or annotate online. Please advise.,billing,overlap:7
+29,Writing to complain: Phishing email used your logo then my account had mystery withdrawals. Please advise.,fraud_unauthorized,template:fraud_unauthorized:5
+174,Support email promised response in twenty-four hours but no follow-up after a week.,customer_service,template:customer_service:1
+186,Flagging an issue: What are store hours for the downtown location on public holidays? Please advise.,general_inquiry,template:general_inquiry:0
+360,Writing to complain: Children's toy paint chipped off and looks unsafe after gentle play. Please advise.,product_defect,template:product_defect:3
+134,Hi support — App forces logout every morning and deletes saved preferences.,account_access,template:account_access:4
+113,"Hello, Return label provided yet pickup was missed twice without rescheduling.",refund_return,template:refund_return:1
+265,"Hello, Defective oven element failed again after warranty repair last quarter.",warranty_repair,confusable:2
+101,Hi support — Do you offer student pricing on annual software licenses?,general_inquiry,template:general_inquiry:1
+103,Writing to complain: Merged family plan removed my profile and purchase history. Please advise.,account_access,template:account_access:3
+348,Flagging an issue: Outer box intact yet internal foam was wet when parcel arrived. Please advise.,delivery_shipping,confusable:16
+119,Flagging an issue: Do you offer student pricing on annual software licenses? Please advise.,general_inquiry,template:general_inquiry:1
+171,Hi support — Password reset keeps failing and I see logins from cities I never visited.,fraud_unauthorized,confusable:9
+340,Writing to complain: A late fee appeared on my account even though I paid before the due date. Please advise.,billing,template:billing:2
+367,"Hello, Support blamed me for a known outage listed on their status page.",customer_service,template:customer_service:6
+90,Hi support — Someone changed shipping address and placed orders I did not approve.,fraud_unauthorized,template:fraud_unauthorized:1
+350,Flagging an issue: Repair appointment canceled by vendor twice without offering new date. Please advise.,warranty_repair,template:warranty_repair:7
+121,Flagging an issue: Monthly service fee increased without email notice as promised in contract. Please advise.,billing,template:billing:4
+248,What are store hours for the downtown location on public holidays?,general_inquiry,template:general_inquiry:0
+344,"Hello, Support email promised response in twenty-four hours but no follow-up after a week.",customer_service,template:customer_service:1
+234,Agent said return was approved but warehouse team never sent label.,refund_return,confusable:5
+23,"Hello, Is the blue kettle dishwasher safe according to latest manual?",general_inquiry,template:general_inquiry:2
+290,Writing to complain: Which carrier partners deliver to rural PO boxes in winter? Please advise.,general_inquiry,template:general_inquiry:3
+14,Children's toy paint chipped off and looks unsafe after gentle play.,product_defect,template:product_defect:3
+371,Refund issued for partial amount excluding original shipping I paid.,refund_return,template:refund_return:2
+330,Flagging an issue: Locked out after suspicious login attempts I did not recognize. Please advise.,account_access,confusable:3
+157,Flagging an issue: I paid express shipping but the tracking page still shows label created only. Please advise.,delivery_shipping,confusable:0
+283,Hi support — Bluetooth headphones stop pairing after the latest firmware update.,product_defect,template:product_defect:1
+266,"Hello, Family subscription cancellation removed kids profiles without warning.",subscription_cancel,template:subscription_cancel:6
+315,Writing to complain: Washing machine same fault returned twice after so-called repair. Please advise.,warranty_repair,template:warranty_repair:4
+239,"Hello, Are demo units on display available for purchase at discount?",general_inquiry,template:general_inquiry:5
+40,Flagging an issue: Statement shows disputed charge I cannot mark or annotate online. Please advise.,billing,overlap:7
+165,Writing to complain: Support blamed me for a known outage listed on their status page. Please advise.,customer_service,template:customer_service:6
+196,Flagging an issue: Where can I download compliance certificates for school procurement? Please advise.,general_inquiry,template:general_inquiry:7
+189,"Hello, Payment posted but balance still shows overdue in the portal.",billing,template:billing:7
+194,Flagging an issue: Family subscription cancellation removed kids profiles without warning. Please advise.,subscription_cancel,template:subscription_cancel:6
+139,Flagging an issue: I see an unknown recurring charge labeled premium support on my statement. Please advise.,billing,template:billing:5
+127,Phishing email used your logo then my account had mystery withdrawals.,fraud_unauthorized,template:fraud_unauthorized:5
+153,Hi support — Single sign-on loop prevents access to member portal on mobile browser.,account_access,template:account_access:7
+341,Repair appointment canceled by vendor twice without offering new date.,warranty_repair,template:warranty_repair:7
+2,Writing to complain: Blender motor smells like burning plastic during low-speed blending. Please advise.,product_defect,template:product_defect:6
+46,"Hello, Repair appointment canceled by vendor twice without offering new date.",warranty_repair,template:warranty_repair:7
+324,Support blamed me for a known outage listed on their status page.,customer_service,template:customer_service:6
+24,Someone changed shipping address and placed orders I did not approve.,fraud_unauthorized,template:fraud_unauthorized:1
+155,Writing to complain: I paid express shipping but the tracking page still shows label created only. Please advise.,delivery_shipping,confusable:0
+78,Case update: Unknown party used saved card for renewal I'm reporting that I did not authorize. Please advise.,fraud_unauthorized,overlap:9
+366,"Hello, Identity verification failed and impostor chat requested my government ID.",fraud_unauthorized,template:fraud_unauthorized:7
+320,"Hello, Waited forty minutes on chat before the agent disconnected without reply.",customer_service,template:customer_service:0
+225,Refund never posted back to my card after return was approved last month.,billing,confusable:1
+254,Courier left perishable groceries in the sun despite shade instructions.,delivery_shipping,template:delivery_shipping:1
+343,Hi support — Are demo units on display available for purchase at discount?,general_inquiry,template:general_inquiry:5
+61,Flagging an issue: Package marked delivered but nothing arrived at my apartment door. Please advise.,delivery_shipping,template:delivery_shipping:0
+309,Hi support — Account locked after three attempts though credentials are correct.,account_access,template:account_access:2
+11,Complaint form submitted twice with no acknowledgement number.,customer_service,template:customer_service:7
+178,Flagging an issue: Blender motor smells like burning plastic during low-speed blending. Please advise.,product_defect,template:product_defect:6
+264,"Hello, App forces logout every morning and deletes saved preferences.",account_access,template:account_access:4
+273,Flagging an issue: Gift card balance emptied overnight with transactions I do not recognize. Please advise.,fraud_unauthorized,template:fraud_unauthorized:2
+161,Writing to complain: Live agent closed ticket while issue was still unresolved. Please advise.,customer_service,template:customer_service:5
+241,Flagging an issue: Why am I still seeing membership charges after I clicked cancel last week? Please advise.,subscription_cancel,confusable:8
+211,"Hello, Item arrived late and the glass panel inside was already shattered.",product_defect,confusable:7
+256,Flagging an issue: Canceled plan yet another monthly invoice generated this morning. Please advise.,billing,confusable:4
+34,Hi support — What are store hours for the downtown location on public holidays?,general_inquiry,template:general_inquiry:0
+69,"Hello, Refund issued for partial amount excluding original shipping I paid.",refund_return,template:refund_return:2
+137,Delivery driver did not ring the bell though I was home all day.,delivery_shipping,template:delivery_shipping:6
+210,"Hello, Washing machine same fault returned twice after so-called repair.",warranty_repair,template:warranty_repair:4
+286,Hi support — Still billed monthly after confirming cancellation confirmation number.,subscription_cancel,template:subscription_cancel:1
+92,Flagging an issue: Cannot log in after password reset email says link expired immediately. Please advise.,account_access,template:account_access:0
+263,Hi support — Which carrier partners deliver to rural PO boxes in winter?,general_inquiry,template:general_inquiry:3
+357,Hi support — Live agent closed ticket while issue was still unresolved.,customer_service,template:customer_service:5
+15,Writing to complain: Is the blue kettle dishwasher safe according to latest manual? Please advise.,general_inquiry,template:general_inquiry:2
+17,Writing to complain: Authorized service billed labor despite comprehensive coverage plan. Please advise.,warranty_repair,template:warranty_repair:3
+37,Bill shows data overage charges although I was on an unlimited plan.,billing,template:billing:6
+240,Flagging an issue: App forces logout every morning and deletes saved preferences. Please advise.,account_access,template:account_access:4
+66,Writing to complain: Return tracking shows received at warehouse five days ago with no credit. Please advise.,refund_return,template:refund_return:6
+233,Writing to complain: Where can I download compliance certificates for school procurement? Please advise.,general_inquiry,template:general_inquiry:7
+138,Writing to complain: Family subscription cancellation removed kids profiles without warning. Please advise.,subscription_cancel,template:subscription_cancel:6
+255,"Hello, Live agent closed ticket while issue was still unresolved.",customer_service,template:customer_service:5
+22,"Hello, Extended protection plan will not cover water damage from known seal defect.",warranty_repair,template:warranty_repair:6
+377,"Hello, Blender motor smells like burning plastic during low-speed blending.",product_defect,template:product_defect:6
+302,"Hello, Merged family plan removed my profile and purchase history.",account_access,template:account_access:3
+177,Flagging an issue: Still billed monthly after confirming cancellation confirmation number. Please advise.,subscription_cancel,template:subscription_cancel:1
+43,"Hello, Password reset keeps failing and I see logins from cities I never visited.",fraud_unauthorized,confusable:9
+83,Writing to complain: Repair appointment canceled by vendor twice without offering new date. Please advise.,warranty_repair,template:warranty_repair:7
+105,Writing to complain: Card billed for renewal though I submitted cancellation before trial ended. Please advise.,subscription_cancel,overlap:8
+368,Are demo units on display available for purchase at discount?,general_inquiry,template:general_inquiry:5
+349,"Hello, Statement shows disputed charge I cannot mark or annotate online.",billing,overlap:7
+96,Flagging an issue: Return approved weeks ago but reimbursement still not issued. Please advise.,refund_return,overlap:3
+281,Merged family plan removed my profile and purchase history.,account_access,template:account_access:3
+312,"Hello, Gift card balance emptied overnight with transactions I do not recognize.",fraud_unauthorized,template:fraud_unauthorized:2
+284,Hi support — Bill shows data overage charges although I was on an unlimited plan.,billing,template:billing:6
+80,Account shows login from another country while I was asleep locally.,fraud_unauthorized,template:fraud_unauthorized:3
+269,Writing to complain: Agent said return was approved but warehouse team never sent label. Please advise.,refund_return,confusable:5
+308,Hi support — Two-factor codes never arrive to my registered phone number.,account_access,template:account_access:1
+65,Flagging an issue: Courier left perishable groceries in the sun despite shade instructions. Please advise.,delivery_shipping,template:delivery_shipping:1
+99,Flagging an issue: Authorized service charged labor despite comprehensive coverage plan. Please advise.,warranty_repair,template:warranty_repair:3
+57,Flagging an issue: Two-factor codes never arrive to my registered phone number. Please advise.,account_access,template:account_access:1
+169,Hi support — Return tracking shows received at warehouse five days ago with no credit.,refund_return,template:refund_return:6
+6,Writing to complain: Locked out after suspicious login attempts I did not recognize. Please advise.,account_access,confusable:3
+115,"Hello, What are store hours for the downtown location on public holidays?",general_inquiry,template:general_inquiry:0
+73,Flagging an issue: Payment posted but balance still shows overdue in the portal. Please advise.,billing,template:billing:7
+58,Hi support — Package marked delivered but nothing arrived at my apartment door.,delivery_shipping,template:delivery_shipping:0
+33,Flagging an issue: Tablet touchscreen registers ghost touches along the right edge. Please advise.,product_defect,template:product_defect:7
+291,Hi support — Waited forty minutes on chat before the agent disconnected without reply.,customer_service,template:customer_service:0
+334,Writing to complain: Wallet billed for subscription I never activated after free trial ended silently. Please advise.,fraud_unauthorized,template:fraud_unauthorized:4
+18,Hi support — Support email promised response in twenty-four hours but no follow-up after a week.,customer_service,template:customer_service:1
+229,Flagging an issue: Is the blue kettle dishwasher safe according to latest manual? Please advise.,general_inquiry,template:general_inquiry:2
+218,Writing to complain: App forces logout every morning and deletes saved preferences. Please advise.,account_access,template:account_access:4
+84,Writing to complain: Single sign-on loop prevents access to member portal on mobile browser. Please advise.,account_access,template:account_access:7
+329,Flagging an issue: Bluetooth headphones stop pairing after the latest firmware update. Please advise.,product_defect,template:product_defect:1
+188,Hi support — Washing machine same fault returned twice after so-called repair.,warranty_repair,template:warranty_repair:4
+280,"Hello, Representative gave conflicting answers about the same warranty claim.",customer_service,template:customer_service:2
+133,Hi support — Defective oven element failed again after warranty repair last quarter.,warranty_repair,confusable:2
+10,Tablet touchscreen registers ghost touches along the right edge.,product_defect,template:product_defect:7
+54,Writing to complain: Two-factor codes never arrive to my registered phone number. Please advise.,account_access,template:account_access:1
+1,Flagging an issue: Username change broke access to digital subscriptions tied to old email. Please advise.,account_access,template:account_access:5
+125,Hi support — Why am I still seeing membership charges after I clicked cancel last week?,subscription_cancel,confusable:8
+8,Writing to complain: Can I buy spare filters in bulk through the corporate portal? Please advise.,general_inquiry,template:general_inquiry:4
+136,Case update: Invoice total does not match quoted price from sales chat. Please advise.,billing,overlap:5
+56,Writing to complain: Smartphone battery drains from full to zero in under three hours. Please advise.,product_defect,template:product_defect:4
+365,Waited forty minutes on chat before the agent disconnected without reply.,customer_service,template:customer_service:0
+363,Writing to complain: Extended protection plan will not cover water damage from known seal defect. Please advise.,warranty_repair,template:warranty_repair:6
+95,Hi support — Where can I download compliance certificates for school procurement?,general_inquiry,template:general_inquiry:7
+339,Flagging an issue: Wallet charged for subscription I never activated after free trial ended silently. Please advise.,fraud_unauthorized,template:fraud_unauthorized:4
+247,Flagging an issue: Unknown party used saved card for renewal I did not authorize. Please advise.,fraud_unauthorized,overlap:9
+109,Hi support — The laptop screen flickers after only two weeks of normal use.,product_defect,template:product_defect:0
+70,Flagging an issue: Agent said return was approved but warehouse team never sent label. Please advise.,refund_return,confusable:5
+352,Flagging an issue: Shipment delayed two weeks — where is my package now? Please advise.,delivery_shipping,overlap:2
+184,"Hello, Why am I still seeing membership charges after I clicked cancel last week?",subscription_cancel,confusable:8
+170,"Hello, Wallet charged for subscription I never activated after free trial ended silently.",fraud_unauthorized,template:fraud_unauthorized:4
+93,Hi support — Representative gave conflicting answers about the same warranty claim.,customer_service,template:customer_service:2
+77,"Hello, Refund never posted back to my card after return was approved last month.",billing,confusable:1
+74,Flagging an issue: Warranty inspection completed but authorized repair was never scheduled. Please advise.,warranty_repair,overlap:1
+124,Hi support — Outer box intact yet internal foam was wet when parcel arrived.,delivery_shipping,confusable:16
+197,Return tracking shows received at warehouse five days ago with no credit.,refund_return,template:refund_return:6
+359,Flagging an issue: Support email promised response in twenty-four hours but no follow-up after a week. Please advise.,customer_service,template:customer_service:1
+149,Flagging an issue: Exchange requested but warehouse sent a different color than approved. Please advise.,refund_return,template:refund_return:4
