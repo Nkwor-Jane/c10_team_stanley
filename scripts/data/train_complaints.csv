@@ -1,4 +1,4 @@
-ComplaintId,text,Category,FamilyId
+ComplaintId,narrative,Issue,FamilyId
 1,Flagging an issue: Username change broke access to digital subscriptions tied to old email. Please advise.,account_access,template:account_access:5
 2,Writing to complain: Blender motor smells like burning plastic during low-speed blending. Please advise.,product_defect,template:product_defect:6
 3,"Hello, Courier left perishable groceries in the sun despite shade instructions.",delivery_shipping,template:delivery_shipping:1
