@@ -1,77 +1,205 @@
 # Complaint Sense — Consumer Complaint Classification
 
-Challenge 9: Intelligent Complaint Classification Using Localized Transformer Architectures (Team Stanley).
+Challenge 9: Intelligent Complaint Classification Using Localized Transformer Architectures (Team Stanley). Fine-tunes **DistilBERT** to predict a complaint's **Issue category** from its free-text narrative. Primary metric: **Macro F1**.
 
-Fine-tune **DistilBERT** on CFPB consumer complaint narratives to predict one of **11 Issue** categories. Primary metric: **Macro F1**.
+## Dataset
 
-## Project layout
+**Source:** [CFPB Consumer Complaint Database](https://www.consumerfinance.gov/data-research/consumer-complaints/) (CC0 1.0 public-domain dedication, subject to CFPB's stated exceptions). Narratives are published only when consumers opt in, and CFPB redacts identifying information before release.
 
-| Path | Purpose |
-|------|---------|
-| `complaint_sense_distilbert.ipynb` | End-to-end notebook (load → preprocess → train → evaluate) |
-| `prepare_data.py` | Build the balanced working CSV from a raw CFPB dump |
-| `requirements.txt` | Python dependencies |
-| `data/` | Place `complaint_sense_working.csv` or `complaints.csv` here |
-| `models/` | Saved fine-tuned model |
-| `outputs/` | Metrics, plots, train/val/test splits |
+**Selection process:** 1,293 complaints with published narratives were exported (period 2025-08-16 to 2026-08-16). After removing exact-duplicate narratives, 1,166 unique complaints remained. From these, 11 CFPB Issue categories were selected — prioritizing categories with clear meaning and sufficient volume, and excluding the vague "Other features, terms, or problems" and "Dealing with your lender or servicer" labels. The current balanced working subset caps each class at 30 examples (23 for the smallest class), for 323 total complaints.
 
-## Quick start
+**Localization extension:** The CFPB set is U.S., English-only, and financial-services-specific. To probe generalization toward Nigerian markets, we use **AfriSenti** (a sentiment-labeled African-language corpus) as a *style/phrasing resource* only, not a label source — sentiment labels don't map to Issue categories. `augment_nigerian.py` uses AfriSenti's Pidgin (`pcm`), Yoruba, Igbo, and Hausa subsets to generate Nigerian Pidgin/code-mixed variants of existing complaints, keeping each original Issue label. A small `nigerian_test_complaints.csv` holds out Nigerian-style narratives for evaluation. **Limitation:** augmented data is synthetic code-mixing, not verified real-world Nigerian complaints.
+
+## Training Pipeline
+
+1. **Collection** (`prepare_data.py`): reads a raw CFPB export, filters to narratives longer than 20 characters, drops empty/null text, keeps only the 11 target Issue categories, and caps each class at `--per-class` examples (default 30).
+2. **Preprocessing**: whitespace normalization only — punctuation, slang, and typos are preserved deliberately so the model sees realistic informal language. Exact-duplicate narratives are dropped before splitting to prevent leakage.
+3. **Splitting**: stratified 80/20 train/test split, then a further stratified 90/10 train/validation split (both stratified on label), seed = 42.
+4. **Augmentation (train only)**: if enabled, Nigerian-language variants generated from `augment_nigerian.py` are appended to the train split *after* the split is fixed, so validation/test stay free of augmented or leaked rows.
+5. **Tokenization**: `distilbert-base-uncased` tokenizer, max sequence length 256, padded/truncated.
+6. **Model & hyperparameters**: `AutoModelForSequenceClassification` on `distilbert-base-uncased`, 11-way head. Settled on: LR 2e-5, weight decay 0.01, warmup ratio 0.1, 4 epochs, batch size 8 train / 16 eval on GPU (4/8 on CPU), fp16 on GPU, early stopping (patience 2) and best-checkpoint selection both driven by validation **macro F1**.
+7. **Design choices**: macro F1 (not accuracy) drives selection so minority categories aren't ignored; light cleaning and a fixed seed (42) keep results reproducible.
+
+## Evaluation
+
+- **Held-out English test set** (20%, stratified, de-duplicated beforehand): accuracy, macro F1 (primary), weighted F1, macro precision/recall, full per-class precision/recall/F1 report, and a confusion matrix (`outputs/confusion_matrix.png`, `outputs/per_class_f1.png`).
+- **Nigerian-language test set**: the same trained model is scored separately on `nigerian_test_complaints.csv` (Pidgin/code-mixed narratives) to check whether performance holds up on localized language it wasn't directly trained on — reported as its own accuracy/macro F1 (`outputs/nigerian_test_metrics.json`), not blended into the main test score.
+- **Leakage checks**: exact-duplicate narratives removed pre-split; augmentation added only to the train split.
+- All metrics and split files (`train.csv`, `val.csv`, `test.csv`, `test_metrics.json`, `per_class_metrics.csv`) are written to `outputs/` for auditability.
+- An inference helper (`predict_complaint`) returns top-k predicted categories with probabilities for spot-checking single complaints.
+
+**Known limitation:** the working subset (323 rows) is small; treat current metrics as a baseline, not a final result. Ambiguous or high-risk complaints (fraud, legal action, safety) should still be routed to human review rather than decided automatically.
+
+## Reproduction
+
+Run in this order:
 
 ```bash
 pip install -r requirements.txt
 
-# Option A — you already exported a filtered CFPB CSV with narratives
-# Save it as data/complaints.csv, then:
+# 1. Build the balanced working CSV
+#    Option A: you already have a filtered CFPB CSV with narratives
 python prepare_data.py --input data/complaints.csv --per-class 30
-
-# Option B — download the full public CFPB dump (large), then filter:
+#    Option B: download the full public CFPB dump, then filter
 python prepare_data.py --download --per-class 30
 
-# Open and run the notebook
-# complaint_sense_distilbert.ipynb
+# 2. (Optional) generate Nigerian-language augmented variants
+python augment_nigerian.py
+
+# 3. Open and run the notebook top to bottom
+#    complaint_sense_distilbert.ipynb
+#    (load -> exploratory checks -> split/tokenize -> fine-tune -> evaluate)
 ```
 
-If you already have the data-card working subset (≈323 rows), save it as:
+If you already have the Data Card's balanced subset (~323 rows), save it directly as `data/complaint_sense_working.csv` with at least `Consumer complaint narrative` and `Issue` columns; step 1 can then be skipped. Set `USE_NIGERIAN_AUGMENTATION = True/False` in the notebook's configuration cell to toggle step 2's effect before training.
 
-`data/complaint_sense_working.csv`
+**Note on narratives:** as of mid-August 2026, CFPB announced it would stop discretionary publication of new complaint narratives. Historical narrative-bearing exports (including the one used for this project's Data Card) remain the intended training source going forward.
 
-with at least columns `Consumer complaint narrative` and `Issue`.
+## Appendix
 
-## Target labels (11)
+**Team Stanley**
+- Nkwor Jane Chinelo
+- Oke Oluwajomiloju
 
-1. Incorrect information on your report  
-2. Improper use of your report  
-3. Managing an account  
-4. Problem with a company's investigation into an existing problem  
-5. Problem with a purchase shown on your statement  
-6. Attempts to collect debt not owed  
-7. Trouble during payment process  
-8. False statements or representation  
-9. Struggling to pay mortgage  
-10. Written notification about debt  
-11. Took or threatened to take negative or legal action  
+**Mentors**
+- David Brown Balogun
 
-## Data source
+## References
+- CFPB Consumer Complaint Database — https://www.consumerfinance.gov/data-research/consumer-complaints/
+- AfriSenti (African-language sentiment corpus), used as a style/phrasing resource for Nigerian-language augmentation - # Complaint Sense — Consumer Complaint Classification
 
-[CFPB Consumer Complaint Database](https://www.consumerfinance.gov/data-research/consumer-complaints/) — CC0 1.0 / U.S. public domain (subject to CFPB stated exceptions). Narratives appear only when consumers opt in; identifying information is redacted by CFPB.
+Challenge 9: Intelligent Complaint Classification Using Localized Transformer Architectures (Team Stanley). Fine-tunes **DistilBERT** to predict a complaint's **Issue category** from its free-text narrative. Primary metric: **Macro F1**.
 
-## Nigerian languages (Yoruba, Igbo, Hausa, Pidgin)
+## Dataset
 
-**AfriSenti cannot be merged directly** with complaint labels — it is sentiment analysis (positive/negative/neutral), not complaint routing.
+**Source:** [CFPB Consumer Complaint Database](https://www.consumerfinance.gov/data-research/consumer-complaints/) (CC0 1.0 public-domain dedication, subject to CFPB's stated exceptions). Narratives are published only when consumers opt in, and CFPB redacts identifying information before release.
 
-Instead, use AfriSenti as a **language/style resource**:
+**Selection process:** 1,293 complaints with published narratives were exported (period 2025-08-16 to 2026-08-16). After removing exact-duplicate narratives, 1,166 unique complaints remained. From these, 11 CFPB Issue categories were selected — prioritizing categories with clear meaning and sufficient volume, and excluding the vague "Other features, terms, or problems" and "Dealing with your lender or servicer" labels. The current balanced working subset caps each class at 30 examples (23 for the smallest class), for 323 total complaints.
 
-1. Run augmentation (creates Pidgin + code-mixed variants of your complaints, same `Category` label):
-   ```bash
-   python augment_nigerian.py
-   ```
-2. In the notebook, set `USE_NIGERIAN_AUGMENTATION = True` and re-train.
-3. Evaluate on `data/nigerian_test_complaints.csv` (section 7b in the notebook).
+**Localization extension:** The CFPB set is U.S., English-only, and financial-services-specific. To probe generalization toward Nigerian markets, we use **AfriSenti** (a sentiment-labeled African-language corpus) as a *style/phrasing resource* only, not a label source — sentiment labels don't map to Issue categories. `augment_nigerian.py` uses AfriSenti's Pidgin (`pcm`), Yoruba, Igbo, and Hausa subsets to generate Nigerian Pidgin/code-mixed variants of existing complaints, keeping each original Issue label. A small `nigerian_test_complaints.csv` holds out Nigerian-style narratives for evaluation. **Limitation:** augmented data is synthetic code-mixing, not verified real-world Nigerian complaints.
 
-AfriSenti folders used: `afrisenti/data/pcm` (Nigerian Pidgin), plus `yor`, `ibo`, `hau` for phrasing patterns.
+## Training Pipeline
 
-**Limitation:** Augmented data is synthetic code-mixing, not real labeled Nigerian complaints. For production, collect verified Nigerian complaint narratives with Issue/Category labels.
+1. **Collection** (`prepare_data.py`): reads a raw CFPB export, filters to narratives longer than 20 characters, drops empty/null text, keeps only the 11 target Issue categories, and caps each class at `--per-class` examples (default 30).
+2. **Preprocessing**: whitespace normalization only — punctuation, slang, and typos are preserved deliberately so the model sees realistic informal language. Exact-duplicate narratives are dropped before splitting to prevent leakage.
+3. **Splitting**: stratified 80/20 train/test split, then a further stratified 90/10 train/validation split (both stratified on label), seed = 42.
+4. **Augmentation (train only)**: if enabled, Nigerian-language variants generated from `augment_nigerian.py` are appended to the train split *after* the split is fixed, so validation/test stay free of augmented or leaked rows.
+5. **Tokenization**: `distilbert-base-uncased` tokenizer, max sequence length 256, padded/truncated.
+6. **Model & hyperparameters**: `AutoModelForSequenceClassification` on `distilbert-base-uncased`, 11-way head. Settled on: LR 2e-5, weight decay 0.01, warmup ratio 0.1, 4 epochs, batch size 8 train / 16 eval on GPU (4/8 on CPU), fp16 on GPU, early stopping (patience 2) and best-checkpoint selection both driven by validation **macro F1**.
+7. **Design choices**: macro F1 (not accuracy) drives selection so minority categories aren't ignored; light cleaning and a fixed seed (42) keep results reproducible.
 
-## Note on narratives
+## Evaluation
 
-As of mid-August 2026, CFPB announced it would cease discretionary publication of new complaint narratives. Historical narrative-bearing exports (including any extract your team already downloaded for the data card) remain the intended training source for this project.
+- **Held-out English test set** (20%, stratified, de-duplicated beforehand): accuracy, macro F1 (primary), weighted F1, macro precision/recall, full per-class precision/recall/F1 report, and a confusion matrix (`outputs/confusion_matrix.png`, `outputs/per_class_f1.png`).
+- **Nigerian-language test set**: the same trained model is scored separately on `nigerian_test_complaints.csv` (Pidgin/code-mixed narratives) to check whether performance holds up on localized language it wasn't directly trained on — reported as its own accuracy/macro F1 (`outputs/nigerian_test_metrics.json`), not blended into the main test score.
+- **Leakage checks**: exact-duplicate narratives removed pre-split; augmentation added only to the train split.
+- All metrics and split files (`train.csv`, `val.csv`, `test.csv`, `test_metrics.json`, `per_class_metrics.csv`) are written to `outputs/` for auditability.
+- An inference helper (`predict_complaint`) returns top-k predicted categories with probabilities for spot-checking single complaints.
+
+**Known limitation:** the working subset (323 rows) is small; treat current metrics as a baseline, not a final result. Ambiguous or high-risk complaints (fraud, legal action, safety) should still be routed to human review rather than decided automatically.
+
+## Reproduction
+
+Run in this order:
+
+```bash
+pip install -r requirements.txt
+
+# 1. Build the balanced working CSV
+#    Option A: you already have a filtered CFPB CSV with narratives
+python prepare_data.py --input data/complaints.csv --per-class 30
+#    Option B: download the full public CFPB dump, then filter
+python prepare_data.py --download --per-class 30
+
+# 2. (Optional) generate Nigerian-language augmented variants
+python augment_nigerian.py
+
+# 3. Open and run the notebook top to bottom
+#    complaint_sense_distilbert.ipynb
+#    (load -> exploratory checks -> split/tokenize -> fine-tune -> evaluate)
+```
+
+If you already have the Data Card's balanced subset (~323 rows), save it directly as `data/complaint_sense_working.csv` with at least `Consumer complaint narrative` and `Issue` columns; step 1 can then be skipped. Set `USE_NIGERIAN_AUGMENTATION = True/False` in the notebook's configuration cell to toggle step 2's effect before training.
+
+**Note on narratives:** as of mid-August 2026, CFPB announced it would stop discretionary publication of new complaint narratives. Historical narrative-bearing exports (including the one used for this project's Data Card) remain the intended training source going forward.
+
+## Appendix
+
+**Team Stanley**
+- Nkwor Jane Chinelo
+- Oke Oluwajomiloju
+
+**Mentors**
+- David Brown Balogun
+
+## References
+- CFPB Consumer Complaint Database — https://www.consumerfinance.gov/data-research/consumer-complaints/
+- AfriSenti (African-language sentiment corpus), used as a style/phrasing resource for Nigerian-language augmentation - # Complaint Sense — Consumer Complaint Classification
+
+Challenge 9: Intelligent Complaint Classification Using Localized Transformer Architectures (Team Stanley). Fine-tunes **DistilBERT** to predict a complaint's **Issue category** from its free-text narrative. Primary metric: **Macro F1**.
+
+## Dataset
+
+**Source:** [CFPB Consumer Complaint Database](https://www.consumerfinance.gov/data-research/consumer-complaints/) (CC0 1.0 public-domain dedication, subject to CFPB's stated exceptions). Narratives are published only when consumers opt in, and CFPB redacts identifying information before release.
+
+**Selection process:** 1,293 complaints with published narratives were exported (period 2025-08-16 to 2026-08-16). After removing exact-duplicate narratives, 1,166 unique complaints remained. From these, 11 CFPB Issue categories were selected — prioritizing categories with clear meaning and sufficient volume, and excluding the vague "Other features, terms, or problems" and "Dealing with your lender or servicer" labels. The current balanced working subset caps each class at 30 examples (23 for the smallest class), for 323 total complaints.
+
+**Localization extension:** The CFPB set is U.S., English-only, and financial-services-specific. To probe generalization toward Nigerian markets, we use **AfriSenti** (a sentiment-labeled African-language corpus) as a *style/phrasing resource* only, not a label source — sentiment labels don't map to Issue categories. `augment_nigerian.py` uses AfriSenti's Pidgin (`pcm`), Yoruba, Igbo, and Hausa subsets to generate Nigerian Pidgin/code-mixed variants of existing complaints, keeping each original Issue label. A small `nigerian_test_complaints.csv` holds out Nigerian-style narratives for evaluation. **Limitation:** augmented data is synthetic code-mixing, not verified real-world Nigerian complaints.
+
+## Training Pipeline
+
+1. **Collection** (`prepare_data.py`): reads a raw CFPB export, filters to narratives longer than 20 characters, drops empty/null text, keeps only the 11 target Issue categories, and caps each class at `--per-class` examples (default 30).
+2. **Preprocessing**: whitespace normalization only — punctuation, slang, and typos are preserved deliberately so the model sees realistic informal language. Exact-duplicate narratives are dropped before splitting to prevent leakage.
+3. **Splitting**: stratified 80/20 train/test split, then a further stratified 90/10 train/validation split (both stratified on label), seed = 42.
+4. **Augmentation (train only)**: if enabled, Nigerian-language variants generated from `augment_nigerian.py` are appended to the train split *after* the split is fixed, so validation/test stay free of augmented or leaked rows.
+5. **Tokenization**: `distilbert-base-uncased` tokenizer, max sequence length 256, padded/truncated.
+6. **Model & hyperparameters**: `AutoModelForSequenceClassification` on `distilbert-base-uncased`, 11-way head. Settled on: LR 2e-5, weight decay 0.01, warmup ratio 0.1, 4 epochs, batch size 8 train / 16 eval on GPU (4/8 on CPU), fp16 on GPU, early stopping (patience 2) and best-checkpoint selection both driven by validation **macro F1**.
+7. **Design choices**: macro F1 (not accuracy) drives selection so minority categories aren't ignored; light cleaning and a fixed seed (42) keep results reproducible.
+
+## Evaluation
+
+- **Held-out English test set** (20%, stratified, de-duplicated beforehand): accuracy, macro F1 (primary), weighted F1, macro precision/recall, full per-class precision/recall/F1 report, and a confusion matrix (`outputs/confusion_matrix.png`, `outputs/per_class_f1.png`).
+- **Nigerian-language test set**: the same trained model is scored separately on `nigerian_test_complaints.csv` (Pidgin/code-mixed narratives) to check whether performance holds up on localized language it wasn't directly trained on — reported as its own accuracy/macro F1 (`outputs/nigerian_test_metrics.json`), not blended into the main test score.
+- **Leakage checks**: exact-duplicate narratives removed pre-split; augmentation added only to the train split.
+- All metrics and split files (`train.csv`, `val.csv`, `test.csv`, `test_metrics.json`, `per_class_metrics.csv`) are written to `outputs/` for auditability.
+- An inference helper (`predict_complaint`) returns top-k predicted categories with probabilities for spot-checking single complaints.
+
+**Known limitation:** the working subset (323 rows) is small; treat current metrics as a baseline, not a final result. Ambiguous or high-risk complaints (fraud, legal action, safety) should still be routed to human review rather than decided automatically.
+
+## Reproduction
+
+Run in this order:
+
+```bash
+pip install -r requirements.txt
+
+# 1. Build the balanced working CSV
+#    Option A: you already have a filtered CFPB CSV with narratives
+python prepare_data.py --input data/complaints.csv --per-class 30
+#    Option B: download the full public CFPB dump, then filter
+python prepare_data.py --download --per-class 30
+
+# 2. (Optional) generate Nigerian-language augmented variants
+python augment_nigerian.py
+
+# 3. Open and run the notebook top to bottom
+#    complaint_sense_distilbert.ipynb
+#    (load -> exploratory checks -> split/tokenize -> fine-tune -> evaluate)
+```
+
+If you already have the Data Card's balanced subset (~323 rows), save it directly as `data/complaint_sense_working.csv` with at least `Consumer complaint narrative` and `Issue` columns; step 1 can then be skipped. Set `USE_NIGERIAN_AUGMENTATION = True/False` in the notebook's configuration cell to toggle step 2's effect before training.
+
+**Note on narratives:** as of mid-August 2026, CFPB announced it would stop discretionary publication of new complaint narratives. Historical narrative-bearing exports (including the one used for this project's Data Card) remain the intended training source going forward.
+
+## Appendix
+
+**Team Stanley**
+- Nkwor Jane Chinelo
+- Oke Oluwajomiloju
+
+**Mentors**
+- David Brown Balogun
+
+## References
+- CFPB Consumer Complaint Database — https://www.consumerfinance.gov/data-research/consumer-complaints/
+- AfriSenti (African-language sentiment corpus), used as a style/phrasing resource for Nigerian-language augmentation - https://huggingface.co/datasets/masakhane/afrisenti
