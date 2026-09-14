@@ -38,6 +38,19 @@ DATE_COL = "Date received"
 CFPB_ZIP_URL = "https://files.consumerfinance.gov/ccdb/complaints.csv.zip"
 
 
+def resolve_data_dir() -> Path:
+    """
+    Resolve the project's data/ directory, always as a sibling of scripts/
+    (never nested inside it) — matches the notebook's ROOT resolution so
+    both tools read/write the same data/ folder regardless of whether this
+    script is run from Tri-ai/ or Tri-ai/scripts/.
+    """
+    root = Path(".").resolve()
+    if root.name == "scripts":
+        root = root.parent
+    return root / "data"
+
+
 def download_cfpb(dest: Path) -> Path:
     dest.parent.mkdir(parents=True, exist_ok=True)
     print(f"Downloading CFPB complaints (~large) from {CFPB_ZIP_URL} ...")
@@ -116,19 +129,29 @@ def prepare_working_set(
 
 
 def main() -> None:
+    data_dir = resolve_data_dir()
+
     parser = argparse.ArgumentParser(description="Prepare Complaint Sense dataset")
     parser.add_argument(
         "--input",
         type=Path,
-        default=Path("data/complaints.csv"),
-        help="Path to raw CFPB CSV (downloaded if missing and --download is set)",
+        default=data_dir / "complaints.csv",
+        help="Path to raw CFPB CSV (downloaded if missing and --download is set). "
+        "Defaults to <project_root>/data/complaints.csv.",
     )
     parser.add_argument("--download", action="store_true", help="Download full CFPB CSV zip if input missing")
     parser.add_argument("--start-date", default=None, help="Optional start date YYYY-MM-DD")
     parser.add_argument("--end-date", default=None, help="Optional end date YYYY-MM-DD")
     parser.add_argument("--per-class", type=int, default=30, help="Max samples per Issue class")
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--out-dir", type=Path, default=Path("data"))
+    parser.add_argument(
+        "--out-dir",
+        type=Path,
+        default=data_dir,
+        help="Where prepared CSVs are written. Defaults to <project_root>/data "
+        "(a sibling of scripts/, never nested inside it), regardless of whether "
+        "this script is run from the project root or from scripts/.",
+    )
     args = parser.parse_args()
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
@@ -169,7 +192,7 @@ def main() -> None:
         if c in balanced.columns
     ]
 
-    pool_path = args.out_dir / "complaint_sense_11class_pool.csv"
+    pool_path = args.out_dir / "complaint_sense_pool.csv"
     balanced_path = args.out_dir / "complaint_sense_working.csv"
     pool[keep_cols].to_csv(pool_path, index=False)
     balanced[keep_cols].to_csv(balanced_path, index=False)

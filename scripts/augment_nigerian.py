@@ -4,13 +4,13 @@ Augment Complaint Sense training data with Nigerian language variants.
 AfriSenti is sentiment analysis (positive/negative/neutral) — it cannot be
 merged label-for-label with complaint categories. Instead we:
 
-1. Keep the same Category label from your complaint CSV.
+1. Keep the same Issue label from your complaint CSV.
 2. Create code-mixed / Pidgin variants of each complaint (phrase substitution).
 3. Optionally mine complaint-style phrasing from AfriSenti Nigerian Pidgin (pcm).
 
 Usage:
   python augment_nigerian.py
-  python augment_nigerian.py --input data/complaint_sense_working.csv --variants 3
+  python augment_nigerian.py --input data/complaint_sense_working.csv --variants pidgin yoruba
 """
 
 from __future__ import annotations
@@ -23,9 +23,38 @@ from pathlib import Path
 import pandas as pd
 
 SEED = 42
-TEXT_COL = "text"
-LABEL_COL = "Category"
-ID_COL = "ComplaintId"
+
+# Must match the CFPB export / Data Card schema used by prepare_data.py
+TEXT_COL = "Consumer complaint narrative"
+LABEL_COL = "Issue"
+ID_COL = "Complaint ID"
+
+TARGET_ISSUES = [
+    "Incorrect information on your report",
+    "Improper use of your report",
+    "Managing an account",
+    "Problem with a company's investigation into an existing problem",
+    "Problem with a purchase shown on your statement",
+    "Attempts to collect debt not owed",
+    "Trouble during payment process",
+    "False statements or representation",
+    "Struggling to pay mortgage",
+    "Written notification about debt",
+    "Took or threatened to take negative or legal action",
+]
+
+
+def resolve_root() -> Path:
+    """
+    Resolve the project root, whether this script is run from Tri-ai/ or
+    Tri-ai/scripts/, so data/ is always read from and written to the same
+    sibling folder as scripts/ — matching prepare_data.py and the notebook.
+    """
+    root = Path(".").resolve()
+    if root.name == "scripts":
+        root = root.parent
+    return root
+
 
 # Discourse markers sampled per language (keeps complaint meaning, adds local tone)
 OPENERS = {
@@ -106,6 +135,12 @@ PHRASE_MAP = {
         r"\bproblem\b": "problem",
         r"\bstill waiting\b": "I still dey wait",
         r"\bno response\b": "dem no reply me",
+        r"\bdebt\b": "debt",
+        r"\bmortgage\b": "house loan",
+        r"\breport\b": "report",
+        r"\bstatement\b": "statement",
+        r"\bpayment\b": "payment",
+        r"\bnegative\b": "bad",
     },
     "yoruba": {
         r"\bhello\b": "bawo ni",
@@ -118,6 +153,7 @@ PHRASE_MAP = {
         r"\bproblem\b": "ìṣòro",
         r"\bthank you\b": "e ṣe",
         r"\bcomplaint\b": "ìkànìyàn",
+        r"\bdebt\b": "gbèsè",
     },
     "igbo": {
         r"\bhello\b": "kedu",
@@ -130,6 +166,7 @@ PHRASE_MAP = {
         r"\bproblem\b": "nsogbu",
         r"\bcomplaint\b": "mkpesa",
         r"\bthief\b": "onye oshi",
+        r"\bdebt\b": "ụgwọ",
     },
     "hausa": {
         r"\bhello\b": "sannu",
@@ -141,20 +178,25 @@ PHRASE_MAP = {
         r"\bwrong\b": "kuskure",
         r"\bproblem\b": "matsala",
         r"\bcomplaint\b": "korafi",
+        r"\bdebt\b": "bashi",
     },
 }
 
+# Short Pidgin templates keyed on the real CFPB Issue categories
 CATEGORY_PIDGIN_TEMPLATES = {
-    "billing": "Dem dey charge me {detail} wey I no authorize.",
-    "account_access": "I no fit enter my account again, {detail}",
-    "delivery_shipping": "My package never arrive, {detail}",
-    "refund_return": "Abeg return my money, {detail}",
-    "fraud_unauthorized": "Somebody use my account without permission, {detail}",
-    "product_defect": "The thing don spoil, {detail}",
-    "warranty_repair": "Repair never happen, {detail}",
-    "subscription_cancel": "I cancel am but dem still dey charge me, {detail}",
-    "general_inquiry": "I wan ask about {detail}",
-    "customer_service": "Customer service no dey respond, {detail}",
+    "Incorrect information on your report": "Dem put wrong info for my report, {detail}",
+    "Improper use of your report": "Somebody use my report anyhow, {detail}",
+    "Managing an account": "I dey struggle to manage my account, {detail}",
+    "Problem with a company's investigation into an existing problem": (
+        "Dem no investigate my matter well, {detail}"
+    ),
+    "Problem with a purchase shown on your statement": "I no recognize this purchase for my statement, {detail}",
+    "Attempts to collect debt not owed": "Dem dey try collect debt wey I no owe, {detail}",
+    "Trouble during payment process": "I dey get wahala when I wan pay, {detail}",
+    "False statements or representation": "Dem tell me lie about this matter, {detail}",
+    "Struggling to pay mortgage": "I dey find am hard to pay my house loan, {detail}",
+    "Written notification about debt": "Dem send me letter about debt wey no correct, {detail}",
+    "Took or threatened to take negative or legal action": "Dem threaten to take legal action against me, {detail}",
 }
 
 
@@ -198,7 +240,6 @@ def augment_row(
         ID_COL: f"{row[ID_COL]}_{lang}",
         TEXT_COL: augmented,
         LABEL_COL: category,
-        "FamilyId": f"aug:{lang}:{row.get('FamilyId', 'unknown')}",
         "augmentation": lang,
         "source_id": row[ID_COL],
     }
@@ -212,7 +253,7 @@ def load_afrisenti_pcm_complaint_phrases(afrisenti_dir: Path, max_phrases: int =
 
     keyword_pattern = (
         r"\b(?:complain|charge|refund|bank|account|subscription|payment|"
-        r"unfair|money|decoder|transaction|fraud|scam|service)\b"
+        r"unfair|money|decoder|transaction|fraud|scam|service|debt|mortgage)\b"
     )
     df = pd.read_csv(pcm_path, sep="\t")
     hits = df[df["tweet"].astype(str).str.contains(keyword_pattern, case=False, na=False, regex=True)]
@@ -243,18 +284,28 @@ def augment_dataframe(
 
 
 def build_nigerian_test_set(categories: list[str]) -> pd.DataFrame:
-    """Small hand-crafted Nigerian-style test complaints (one per category)."""
+    """Small hand-crafted Nigerian-style test complaints, one per real Issue category."""
     samples = [
-        ("billing", "Abeg why dem dey charge me every month for premium support wey I no subscribe?"),
-        ("account_access", "Mo ni pe account mi ti di locked, mo ko le wọle mọ."),
-        ("delivery_shipping", "I never receive my package o, e don pass two weeks."),
-        ("refund_return", "Biko return my money, dem give me wrong product."),
-        ("fraud_unauthorized", "Somebody use my card without permission, barawo dem!"),
-        ("product_defect", "The laptop don spoil after two weeks, na wahala."),
-        ("warranty_repair", "Dem cancel repair appointment twice, I don tire."),
-        ("subscription_cancel", "I cancel subscription but dem still dey charge me kudi."),
-        ("general_inquiry", "Don Allah, una get student pricing for annual license?"),
-        ("customer_service", "Customer service no dey reply, wetin dey sup na?"),
+        ("Incorrect information on your report", "Abeg my credit report get wrong info wey I never do."),
+        ("Improper use of your report", "Somebody use my report anyhow without my permission."),
+        ("Managing an account", "Mo ni pe account mi ti di locked, mo ko le wọle mọ."),
+        (
+            "Problem with a company's investigation into an existing problem",
+            "Dem no investigate my matter well, na wahala be dis.",
+        ),
+        (
+            "Problem with a purchase shown on your statement",
+            "I no recognize this purchase for my statement o.",
+        ),
+        ("Attempts to collect debt not owed", "Dem dey try collect debt wey I no owe, na lie."),
+        ("Trouble during payment process", "I dey get wahala anytime I wan pay, e no dey work."),
+        ("False statements or representation", "Dem tell me lie about this matter, e no correct."),
+        ("Struggling to pay mortgage", "I dey find am hard to pay my house loan every month."),
+        ("Written notification about debt", "Dem send me letter about debt wey no correct at all."),
+        (
+            "Took or threatened to take negative or legal action",
+            "Dem threaten to take legal action against me, barawo dem!",
+        ),
     ]
     rows = []
     for i, (cat, text) in enumerate(samples):
@@ -264,7 +315,6 @@ def build_nigerian_test_set(categories: list[str]) -> pd.DataFrame:
                     ID_COL: f"nigerian_test_{i}",
                     TEXT_COL: text,
                     LABEL_COL: cat,
-                    "FamilyId": "nigerian_test",
                     "augmentation": "manual_test",
                     "source_id": None,
                 }
@@ -273,19 +323,34 @@ def build_nigerian_test_set(categories: list[str]) -> pd.DataFrame:
 
 
 def main() -> None:
+    root = resolve_root()
+    data_dir = root / "data"
+
     parser = argparse.ArgumentParser(description="Augment complaints with Nigerian languages")
-    parser.add_argument("--input", type=Path, default=Path("data/complaint_sense_working.csv"))
-    parser.add_argument("--output", type=Path, default=Path("data/complaint_sense_augmented.csv"))
+    parser.add_argument(
+        "--input",
+        type=Path,
+        default=data_dir / "complaint_sense_working.csv",
+        help="Defaults to <project_root>/data/complaint_sense_working.csv",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=data_dir / "complaint_sense_augmented.csv",
+        help="Defaults to <project_root>/data/complaint_sense_augmented.csv",
+    )
     parser.add_argument(
         "--test-output",
         type=Path,
-        default=Path("data/nigerian_test_complaints.csv"),
+        default=data_dir / "nigerian_test_complaints.csv",
+        help="Defaults to <project_root>/data/nigerian_test_complaints.csv",
     )
     parser.add_argument(
         "--afrisenti-dir",
         type=Path,
-        default=Path("afrisenti"),
-        help="Local AfriSenti clone (optional, for phrase mining stats)",
+        default=root / "afrisenti",
+        help="Local AfriSenti clone (optional, for phrase mining stats). "
+        "Defaults to <project_root>/afrisenti.",
     )
     parser.add_argument(
         "--variants",
@@ -296,8 +361,24 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=SEED)
     args = parser.parse_args()
 
+    if not args.input.exists():
+        raise FileNotFoundError(
+            f"{args.input} not found. Run prepare_data.py first to build the working "
+            f"dataset, or pass --input pointing at your complaint CSV."
+        )
+
     rng = random.Random(args.seed)
     df = pd.read_csv(args.input)
+
+    missing = [c for c in (ID_COL, TEXT_COL, LABEL_COL) if c not in df.columns]
+    if missing:
+        raise KeyError(
+            f"{args.input} is missing required columns {missing}.\n"
+            f"Available columns: {df.columns.tolist()}\n"
+            f"Expected columns: {[ID_COL, TEXT_COL, LABEL_COL]} "
+            f"(matching the CFPB export / Data Card schema)."
+        )
+
     categories = sorted(df[LABEL_COL].unique().tolist())
 
     augmented = augment_dataframe(df, args.variants, rng)
@@ -305,6 +386,7 @@ def main() -> None:
     augmented.to_csv(args.output, index=False)
 
     test_df = build_nigerian_test_set(categories)
+    args.test_output.parent.mkdir(parents=True, exist_ok=True)
     test_df.to_csv(args.test_output, index=False)
 
     pcm_phrases = load_afrisenti_pcm_complaint_phrases(args.afrisenti_dir)
